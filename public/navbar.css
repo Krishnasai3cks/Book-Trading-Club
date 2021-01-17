@@ -1,0 +1,21 @@
+.dropdown {
+    position: absolute;
+    display: none;
+    list-style-type: none;
+    padding: 0;
+}
+
+.drop-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.drop-container:hover .dropdown {
+    display: inline;
+}
+
+#nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

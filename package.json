@@ -1,0 +1,37 @@
+{
+    "name": "book_trading_club",
+    "version": "1.0.0",
+    "description": "A manager for book trading club for freecodecamp takehomeprojects legacy backend certification",
+    "main": "server.js",
+    "scripts": {
+        "start": "nodemon server.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Krishnasai3cks/Book-Trading-Club.git"
+    },
+    "keywords": [
+        "book",
+        "trading",
+        "club",
+        "freecodecamp",
+        "takehomeprojects",
+        "backend",
+        "node"
+    ],
+    "author": "Krishna Sai Cholkar",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Krishnasai3cks/Book-Trading-Club/issues"
+    },
+    "homepage": "https://github.com/Krishnasai3cks/Book-Trading-Club#readme",
+    "dependencies": {
+        "dotenv": "^8.2.0",
+        "ejs": "^3.1.5",
+        "express": "^4.17.1",
+        "mongodb": "^3.6.3",
+        "passport": "^0.4.1",
+        "passport-github": "^1.1.0"
+    }
+}
