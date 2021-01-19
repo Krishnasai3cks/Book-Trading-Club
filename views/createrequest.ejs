@@ -9,6 +9,14 @@
 
 <body>
     <%- include('navbar.ejs')%>
+    togive:
+    
+    <%- include('listbooks.ejs',{books:toGive})-%>
+<br> <br>
+    totake:
+    <%- include('listbooks.ejs',{books:toTake})-%>
+
+    <a href="/submitrequest">submitrequest</a>
 </body>
 
 </html>

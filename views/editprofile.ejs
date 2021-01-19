@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Exchange - Edit Profile</title>
+</head>
+
+<body>
+    <%- include('navbar.ejs') %>
+
+        <h3>Update Profile</h3>
+        <span>for <%= name %></span>
+
+        <form method="post" action="/update">
+            Username: <input type="text" name="username" id="username" value="<%= username %>"> Full Name: <input type="text" name="name" id="name" value="<%= name %>"> location: <input type="text" name="location" id="location" value="<%= location %>">
+            <input type="submit" value="Save Changes">
+        </form>
+</body>
+
+</html>

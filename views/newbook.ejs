@@ -9,10 +9,10 @@
 
 <body>
     <%- include('navbar.ejs');%>
-
+    <br><br>
         <div class="container">
             <div class="top-container">
-                <form action="/newbook">
+                <form action="/newbook" method="post">
                     <span> Title:</span>
                     <input type="text" name="title" id="title">
                     <span>Description:</span>
@@ -23,14 +23,20 @@
             <div class="bottom-container">
                 <div class="heading-section">
 
-                    <span>username's books</span>
+                    <span><%= name %>'s books</span>
                     <span>available for trade</span>
 
                 </div>
-                You currently have no books
-                <!-- <form action="/newbook">
-                    <input type="radio" name="books" id="">
-                </form> -->
+                <% if(data.length==0){%>
+                                You currently have no books
+
+                <% } else {%>
+                <% data.forEach(val=>{ %>
+                    <br> <br>
+                    <%= val.title %>
+                    <%= val.desc %>
+               <% }) %>
+               <% } %>
             </div>
         </div>
 </body>

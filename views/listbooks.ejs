@@ -1,0 +1,28 @@
+<style>
+        .elements {
+            width: 100%;
+            display: flex;
+        }
+        </style>
+<% books.forEach(book=>{ %>
+    <div class="elements">
+                        <input type="checkbox" name="selectbooks" value="<%= book._id %>" id="<%= book._id %>">
+                        <div>
+                            <h5>
+                                <%= book.title %>
+                            </h5>
+                            <h5>
+                                <%= book.desc %>
+                            </h5>
+                            <h5>from
+                                <%= book.username %> in
+                                    <%= book.location %>
+                            </h5>
+                        </div>
+
+                        <% if((typeof name!=='undefined' )&& book.created_by == id){ %>
+                            <a href="/deletebook?id=<%= book._id %>">delete</a>
+                            <% } %>
+                    </div>
+
+                    <% }) %>

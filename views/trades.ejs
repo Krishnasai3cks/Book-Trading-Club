@@ -10,6 +10,16 @@
 
 <body>
     <%- include('navbar.ejs')%>
+    <% trades.forEach(trade=>{ %>
+    
+        <% trade.trades[0].forEach(trade1=>{ %>
+        <%= trade1.username %>
+        <% }) %>
+
+        <% trade.trades[1].forEach(trade2=>{ %>
+        <%= trade2.username %>
+        <% }) %>
+    <% })%>
 </body>
 
 </html>

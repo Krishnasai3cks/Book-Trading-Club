@@ -1,14 +1,27 @@
 require("dotenv").config();
-
+const bodyParser = require('body-parser');
 const routes = require("./routes.js");
 const auth = require("./auth.js");
 const express = require("express");
 const app = express();
 
+let session = require('express-session');
 let passport = require("passport");
 
+
+app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.json())
+app.use(session({secret:process.env.SESSION_SECRET,
+resave:true,
+saveUninitialized:true}))
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(function(req, res, next) {
+  res.locals.user = req.session.user;
+  next();
+});
+
 app.use("/public", express.static(process.cwd() + "/public"));
 app.use(express.json());
 app.set("view engine", "ejs");

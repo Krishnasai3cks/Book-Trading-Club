@@ -3,6 +3,11 @@
     display: none;
     list-style-type: none;
     padding: 0;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.dropdown li {
+    margin-top: 3px;
 }
 
 .drop-container {
@@ -14,8 +19,31 @@
     display: inline;
 }
 
+a {
+    text-decoration: none;
+    color: rgb(73, 71, 71);
+    padding: 1em 1em;
+}
+.nav-link:hover{
+    color:black;
+}
+.nav-link{
+        color: rgb(141, 138, 138);
+}
 #nav-bar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    background-color: rgb(240, 232, 232);
+}
+
+.pageselect {
+    background: rgba(29, 2, 2, 0.1);
+    color:black;
+}
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+.delete{
+    color:red;
 }

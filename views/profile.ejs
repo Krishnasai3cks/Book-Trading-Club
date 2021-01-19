@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Trading - Profile</title>
+</head>
+
+<body>
+    <%- include('navbar.ejs') %>
+
+        <br>
+        <br>
+        <h3>
+            <%= name %>'s profile
+        </h3>
+
+        <p>
+            Username:
+            <%= username %><br>
+                Full Name:
+                <%= name %><br>
+                    Location:
+                    <%= location %><br>
+        </p>
+        <div>
+            <a href="/books/my">Your books</a>
+            <a href="/users/edit">Edit your profile</a>
+        </div>
+</body>
+
+</html>

@@ -9,6 +9,10 @@
 
 <body>
     <%- include('navbar.ejs');%>
+
+    <% data.forEach(value=>{ %>
+        <%= value.name %>
+    <% }) %>
 </body>
 
 </html>
