@@ -5,10 +5,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Exchange - All Requests</title>
+    <link rel="stylesheet" href="/public/requests.css">
+
 </head>
 
 <body>
-    <%- include('navbar.ejs')%>
+    <%- include('navbar.ejs') %>
+        <div id="container">
+            <% Object.keys(liverequests).forEach(key=>{%>
+                <div class="inner-container">
+                    <% if(typeof username!=='undefined' && username == liverequests[key][0].username ){ %>
+                        <a class="link red" href="/cancelrequest/<%= key%>">Cancel Request</a>
+                    <% } %>
+                    <a class="link" href="/users/<%= liverequests[key][0].username %>"><%= liverequests[key][0].username %></a> wants to give
+                        <div class="inner-elements element">
+                            <span>
+                            Title:
+                            <%= liverequests[key][0].title %></span>
+                            </span>
+                                Description:
+                                <%= liverequests[key][0].desc %>
+                                <span>
+                        </div>
+
+                        and wants to take
+                        <div class='inner-elements take-list'>
+                            <% liverequests[key].slice(1).forEach(book=>{ %>
+                                <div class="element">
+                                    <span>Title:
+                                    <%= book.title %><span>
+                                       <span> Description:
+                                        <%= book.desc %></span>
+                                        <span>Created By:<a class="link" href="/users/<%= book.username %>"><%= book.username %></a></span>
+                                </div>
+                                <% })%>
+                        </div>
+                </div>
+                <% }) %>
+
+        </div>
 </body>
 
 </html>

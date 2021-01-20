@@ -5,18 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Exchange - Create Request</title>
+    <link rel="stylesheet" href="/public/createrequest.css">
 </head>
 
 <body>
     <%- include('navbar.ejs')%>
-    togive:
-    
-    <%- include('listbooks.ejs',{books:toGive})-%>
-<br> <br>
-    totake:
-    <%- include('listbooks.ejs',{books:toTake})-%>
+    <div id="container">
+    <div>
+    <h4> <%= username %></h4>
+    </div>
+    <div class="inner-grid">
+        <h5> wants to give <h5>
 
-    <a href="/submitrequest">submitrequest</a>
+        <div class="inner-ele" id="togive">
+            <%- include('listbooks.ejs',{books:toGive})-%>
+            <a class="link" href="/books">Choose Books to Give</a>
+            
+        </div>
+        
+        <h5> wants to take <h5>
+        <div class="inner-ele" id="totake">
+            <%- include('listbooks.ejs',{books:toTake})-%>
+             <a class="link" href="/books">Choose Books to Take</a>
+        </div>
+    </div>
+    <a class="link" href="/books">Choose Books</a>
+            <a class="link" id="submitrequest" href="/submitrequest">submitrequest</a>
+    </div>
 </body>
 
 </html>

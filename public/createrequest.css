@@ -1,0 +1,26 @@
+#container{
+    width:100%;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+}
+#submitrequest{
+    text-align: center;
+    background-color:rgba(169, 226, 226, 0.664);
+}
+.link{
+     background-color: rgba(157, 231, 160,0.3); /* Green */
+            cursor: pointer;
+            border: none;
+            color: black;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin:10px;
+}
+.inner-grid{
+    width:90%;
+    box-shadow:0.1px 0.1px 5px gray;
+}

@@ -5,14 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Exchange - Users</title>
+        <link rel="stylesheet" href="/public/users.css">
+
 </head>
 
 <body>
     <%- include('navbar.ejs');%>
-
-    <% data.forEach(value=>{ %>
-        <%= value.name %>
-    <% }) %>
+    <div id="container">
+    
+        <div id='inner-container'>
+          <h1> Users: </h1>
+            <div id="userlist">
+            <% data.forEach(value=>{ %>
+                <div class="elements">
+                <h4><a class="link" href="/users/<%= value.username%>"><%= value.username %></a></h4>
+                <h5>Name: <%= value.name %></h5>
+                <h5>Location: <%= value.location %></h5>
+                </div>
+            <% }) %>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

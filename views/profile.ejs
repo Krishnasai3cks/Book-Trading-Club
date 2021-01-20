@@ -5,6 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Trading - Profile</title>
+    <style>
+    .link{
+    background-color: rgba(157, 231, 160,0.4); /* Green */
+            cursor: pointer;
+            border: none;
+            color: black;
+            padding: 10px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
+    </style>
 </head>
 
 <body>
@@ -13,21 +26,23 @@
         <br>
         <br>
         <h3>
-            <%= name %>'s profile
+            <%= user.name %>'s profile
         </h3>
 
         <p>
             Username:
-            <%= username %><br>
+            <%= user.username %><br>
                 Full Name:
-                <%= name %><br>
+                <%= user.name %><br>
                     Location:
-                    <%= location %><br>
+                    <%= user.location %><br>
         </p>
+        <% if(typeof name!=='undefined' && user.name==name){%>
         <div>
-            <a href="/books/my">Your books</a>
-            <a href="/users/edit">Edit your profile</a>
+            <a class="link" href="/books/my">Your books</a>
+            <a class="link" href="/users/edit">Edit your profile</a>
         </div>
+        <% } %>
 </body>
 
 </html>

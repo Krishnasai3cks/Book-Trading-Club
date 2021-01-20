@@ -5,21 +5,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Exchange - Trades</title>
+    <link rel="stylesheet" href="/public/trades.css">
 
 </head>
 
 <body>
     <%- include('navbar.ejs')%>
-    <% trades.forEach(trade=>{ %>
-    
-        <% trade.trades[0].forEach(trade1=>{ %>
-        <%= trade1.username %>
-        <% }) %>
-
-        <% trade.trades[1].forEach(trade2=>{ %>
-        <%= trade2.username %>
-        <% }) %>
-    <% })%>
+        <div id="container">
+            <div id="inner-container">
+                <div id="intro">
+                    <h1>All Trades:</h1>
+                </div>
+                <div class="inner-elements">
+                    <% trades.forEach(trade=>{ %>
+                        <div class="elements-list">
+                            <h4>
+                                <a class="link" href="/users/<%= trade.trades[1][0].username %>">
+                                    <%= trade.trades[1][0].username %>
+                                </a>
+                            </h4>gets:
+                            <% trade.trades[0].forEach(book=>{ %>
+                                <div class="elements">
+                                    <span>Title:<%= book.title %></span>
+                                    <span> Description: <%= book.desc %></span>
+                                </div>
+                                <% }) %>
+                        </div>
+                        <div class="elements-list">
+                            <h4>
+                                <a class="link" href="/users/<%= trade.trades[0][0].username %>">
+                                    <%= trade.trades[0][0].username %>
+                                </a>
+                            </h4>gets:
+                            <% trade.trades[1].forEach(book=>{ %>
+                                <div class="elements">
+                                    <span>Title:<%= book.title %></span>
+                                    <span> Description: <%= book.desc %></span>
+                                </div>
+                                <% }) %>
+                        </div>
+                        <% })%>
+                </div>
+            </div>
+        </div>
 </body>
 
 </html>

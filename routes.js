@@ -1,18 +1,23 @@
 const passport = require("passport");
 const ObjectID = require("mongodb").ObjectID;
 let session;
+let called = false;
 module.exports = (app, db) => {
     const ensureAuthenticated = (req, res, next) => {
         if (req.isAuthenticated()) {
             return next();
         }
-        res.redirect("/");
+        res.redirect("/login");
     };
     app.use(function(req, res, next) {
         res.locals.activerequests = [];
         next();
     });
     app.route("/").get((req, res) => {
+        if(!called){
+            session=req.session;
+            called=true;
+        }
         res.redirect("/books");
     });
     app.get("/books", (req, res) => {
@@ -38,12 +43,62 @@ module.exports = (app, db) => {
             });
     });
     app.route("/requests").get((req, res) => {
-        res.render("requests.ejs", {...req.user, calledfrom: "All-Requests" });
+        if(!called){
+            session=req.session;
+            called=true;
+        }
+        db.collection('books').find({}).toArray((err,data)=>{
+            if(err) console.log(err);
+            else{
+                let liverequests = {}
+                data.forEach(book=>{
+                    book.requests.forEach(req=>{
+                        if(!liverequests.hasOwnProperty(req._id)){
+                            liverequests[req._id] = [req];
+                        }
+                        liverequests[req._id].push(book);
+                    })
+                })
+                session['liverequests'] = liverequests;
+        res.render("requests.ejs", {...req.user,liverequests, calledfrom: "All-Requests" });
+            }
+        })
     });
+    app.get('/cancelrequest/:id',ensureAuthenticated,(req,res)=>{
+        let {id} = req.params;
+        let bookIDArray = [];
+        let bookToBeRemoved;
+        session['liverequests'][id].forEach(book=>{
+           if(book === session['liverequests'][id][0]){
+                bookToBeRemoved= book;
+           } else {
+                bookIDArray.push(new ObjectID(book._id));
+           }
+        });
+        db.collection('books').updateMany(
+            {
+                _id:{
+                    $in:bookIDArray,
+                }
+            },
+            {
+                $pull:{
+                    requests: {
+                        _id: new ObjectID(bookToBeRemoved._id),
+                    }
+                }
+            },
+            (err,data)=>{
+                if(err) console.log(err);
+                else{
+                    res.redirect('/requests');
+                }
+            }
+        )
+    })
     app
         .route("/requests/new")
         .get(ensureAuthenticated, (req, res) => {
-            console.log(session['toGive'])
             res.render("createrequest.ejs", {
                 ...req.user,
                 calledfrom: "New-Requests",
@@ -146,7 +201,6 @@ module.exports = (app, db) => {
     })
     app.get("/trades", (req, res) => {
         db.collection('trades').find({}).toArray((err,trades)=>{
-            console.log(trades);
             res.render("trades.ejs", {...req.user,trades, calledfrom: "Trades" });
         })
     });
@@ -160,13 +214,13 @@ module.exports = (app, db) => {
     app.route("/users/edit").get(ensureAuthenticated, (req, res) => {
         res.render("editprofile.ejs", {...req.user });
     });
-    app.route("/users/:username").get(ensureAuthenticated, (req, res) => {
+    app.route("/users/:username").get( (req, res) => {
         let { username } = req.params;
         db.collection("users")
             .find({ username: username })
             .toArray((err, data) => {
                 data = data[0];
-                res.render("profile.ejs", {...req.user, data });
+                res.render("profile.ejs", {user:data,...req.user});
             });
     });
     app.route("/update").post(ensureAuthenticated, (req, res) => {

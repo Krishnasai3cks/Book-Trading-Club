@@ -1,0 +1,29 @@
+.elements {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid rgb(209, 207, 207, 0.6);
+}
+label{
+    display:block;
+}
+.inner-ele{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+.checkbox{
+    margin:2em;
+}
+input[type='checkbox']:checked+label {
+    font-style: italic;
+}
+
+.red:checked+label {
+    color: red;
+}
+
+.green:checked+label{
+    color: green;
+}

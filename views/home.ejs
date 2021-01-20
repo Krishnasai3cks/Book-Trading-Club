@@ -7,50 +7,31 @@
     <link rel="stylesheet" href="/public/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>Book Trading Club</title>
-    <style>
-        #books-container {
-            width: 90%;
-        }
-        
-        form {
-            width: 100%;
-        }
-        
-        .elements {
-            width: 100%;
-            display: flex;
-        }
-        
-        .intro {
-            width: 100%;
-            height: 30px;
-            background-color: rgb(240, 232, 232);
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="/public/home.css">
+
 </head>
 
 <body>
     <%- include ('navbar.ejs') %>
+    <div id="container">
         <div id="books-container">
             <div class="intro">
-                <span style="font-size:x-large;font-weight: bold;">Books</span><span>&nbsp;available for trade</span>
+                <h1 style="display:inline">Books</h1><span>&nbsp;available for trade</span>
             </div>
             <form method="post" action="/requests/new">
                 <%- include('listbooks.ejs') %>
-                <!--
-
-                paste here if any mistake 
-                
-                -->
-                        <% if(typeof name=='undefined'){ %>
+                <div id="footer">
+        
+                <% if(typeof name=='undefined'){ %>
                             <a href="/login">Login to create requests</a>
-                            <% } else { %>
-                                <input type="submit" value="New Request">
-                                <a href="/books/new">New Book</a>
-                                <% } %>
-            </form>
+                <% } else { %>
+                    <input type="submit" value="New Request">
+                    <a href="/books/my">New Book</a>
+                <% } %>
         </div>
+        </form>
+        </div>
+    </div>
         <script src="public/client.js"></script>
 </body>
 
