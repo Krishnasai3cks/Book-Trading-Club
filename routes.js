@@ -14,9 +14,9 @@ module.exports = (app, db) => {
         next();
     });
     app.route("/").get((req, res) => {
-        if(!called){
-            session=req.session;
-            called=true;
+        if (!called) {
+            session = req.session;
+            called = true;
         }
         res.redirect("/books");
     });
@@ -24,16 +24,23 @@ module.exports = (app, db) => {
         db.collection("books")
             .find({})
             .toArray((err, data) => {
-                if (typeof session !== 'undefined') {
-                    session['activerequests'] = []
+                if (typeof session !== "undefined") {
+                    session["activerequests"] = [];
                 }
-                data.forEach(book => {
-                    if (req.user && req.user.id == book.created_by && book.requests.length > 0) {
-                        session['activerequests'].push(book);
+                data.forEach((book) => {
+                    if (
+                        req.user &&
+                        req.user.id == book.created_by &&
+                        book.requests.length > 0
+                    ) {
+                        session["activerequests"].push(book);
                     }
                 });
-                if (typeof session !== 'undefined' && typeof session['activerequests'] !== 'undefined') {
-                    res.locals.activerequests = session['activerequests'];
+                if (
+                    typeof session !== "undefined" &&
+                    typeof session["activerequests"] !== "undefined"
+                ) {
+                    res.locals.activerequests = session["activerequests"];
                 }
                 res.render("home.ejs", {
                     ...req.user,
@@ -43,75 +50,80 @@ module.exports = (app, db) => {
             });
     });
     app.route("/requests").get((req, res) => {
-        if(!called){
-            session=req.session;
-            called=true;
+        if (!called) {
+            session = req.session;
+            called = true;
         }
-        db.collection('books').find({}).toArray((err,data)=>{
-            if(err) console.log(err);
-            else{
-                let liverequests = {}
-                data.forEach(book=>{
-                    book.requests.forEach(req=>{
-                        if(!liverequests.hasOwnProperty(req._id)){
-                            liverequests[req._id] = [req];
-                        }
-                        liverequests[req._id].push(book);
-                    })
-                })
-                session['liverequests'] = liverequests;
-        res.render("requests.ejs", {...req.user,liverequests, calledfrom: "All-Requests" });
-            }
-        })
+        db.collection("books")
+            .find({})
+            .toArray((err, data) => {
+                if (err) console.log(err);
+                else {
+                    let liverequests = {};
+                    data.forEach((book) => {
+                        book.requests.forEach((req) => {
+                            if (!liverequests.hasOwnProperty(req._id)) {
+                                liverequests[req._id] = [req];
+                            }
+                            liverequests[req._id].push(book);
+                        });
+                    });
+                    session["liverequests"] = liverequests;
+                    res.render("requests.ejs", {
+                        ...req.user,
+                        liverequests,
+                        calledfrom: "All-Requests",
+                    });
+                }
+            });
     });
-    app.get('/cancelrequest/:id',ensureAuthenticated,(req,res)=>{
-        let {id} = req.params;
+    app.get("/cancelrequest/:id", ensureAuthenticated, (req, res) => {
+        let { id } = req.params;
         let bookIDArray = [];
         let bookToBeRemoved;
-        session['liverequests'][id].forEach(book=>{
-           if(book === session['liverequests'][id][0]){
-                bookToBeRemoved= book;
-           } else {
+        session["liverequests"][id].forEach((book) => {
+            if (book === session["liverequests"][id][0]) {
+                bookToBeRemoved = book;
+            } else {
                 bookIDArray.push(new ObjectID(book._id));
-           }
+            }
         });
-        db.collection('books').updateMany(
-            {
-                _id:{
-                    $in:bookIDArray,
-                }
-            },
-            {
-                $pull:{
+        db.collection("books").updateMany({
+                _id: {
+                    $in: bookIDArray,
+                },
+            }, {
+                $pull: {
                     requests: {
                         _id: new ObjectID(bookToBeRemoved._id),
-                    }
-                }
+                    },
+                },
             },
-            (err,data)=>{
-                if(err) console.log(err);
-                else{
-                    res.redirect('/requests');
+            (err, data) => {
+                if (err) console.log(err);
+                else {
+                    res.redirect("/requests");
                 }
             }
-        )
-    })
+        );
+    });
     app
         .route("/requests/new")
         .get(ensureAuthenticated, (req, res) => {
             res.render("createrequest.ejs", {
                 ...req.user,
                 calledfrom: "New-Requests",
-                toGive: session['toGive'],
-                toTake: session['toTake'],
+                toGive: session["toGive"],
+                toTake: session["toTake"],
             });
-        }).post(ensureAuthenticated, (req, res) => {
+        })
+        .post(ensureAuthenticated, (req, res) => {
             let { selectbooks } = req.body;
             let bookIDArray = [];
-            if (typeof selectbooks == 'undefined') {
-                selectbooks = []
+            if (typeof selectbooks == "undefined") {
+                selectbooks = [];
             }
-            if (typeof selectbooks == 'string') {
+            if (typeof selectbooks == "string") {
                 selectbooks = [selectbooks];
             }
             selectbooks.forEach((string) => {
@@ -138,71 +150,81 @@ module.exports = (app, db) => {
                 });
             res.redirect("/requests/new");
         });
-    app.route('/submitrequest').get(ensureAuthenticated, (req, res) => {
+    app.route("/submitrequest").get(ensureAuthenticated, (req, res) => {
         let objArray = [];
-        session.toTake.forEach(val => {
-            objArray.push(new ObjectID(val._id))
-        })
-        db.collection('books').updateMany({
+        session.toTake.forEach((val) => {
+            objArray.push(new ObjectID(val._id));
+        });
+        db.collection("books").updateMany({
                 _id: {
-                    $in: objArray
-                }
+                    $in: objArray,
+                },
             }, {
-                $push: { requests: { $each: session.toGive } }
+                $push: { requests: { $each: session.toGive } },
             },
             (err, doc) => {
                 if (err) console.log(err);
-                else res.redirect('/');
+                else res.redirect("/");
             }
-        )
-    })
-    app.route('/liverequests').get(ensureAuthenticated, (req, res) => {
-        res.render('liverequests.ejs', { activerequests: session['activerequests'] })
+        );
     });
-    app.route('/acceptrequest').post(ensureAuthenticated, (req, res) => {
+    app.route("/liverequests").get(ensureAuthenticated, (req, res) => {
+        res.render("liverequests.ejs", {
+            activerequests: session["activerequests"],
+        });
+    });
+    app.route("/acceptrequest").post(ensureAuthenticated, (req, res) => {
         let { selectbooks } = req.body;
         if (!selectbooks) {
-            res.redirect('/liverequests');
-        } else if (typeof selectbooks == 'string') {
-            selectbooks = [selectbooks]
+            res.redirect("/liverequests");
+        } else if (typeof selectbooks == "string") {
+            selectbooks = [selectbooks];
         }
         let givenBookIDArray = [];
         let gottenBooksIDArray = [];
-        selectbooks.forEach(bookID => {
+        selectbooks.forEach((bookID) => {
             givenBookIDArray.push(new ObjectID(bookID));
-        })
-        db.collection('books').find({
-            _id: {
-                $in: givenBookIDArray
-            }
-        }).toArray((err, books) => {
-        let givenBooks = [];
-        let gottenBooks = [];
-            books.forEach(data => {
-                givenBooks.push(data);
-                gottenBooks = data.requests;
-                gottenBooks.forEach(book=>{
-                    gottenBooksIDArray.push(new ObjectID(book._id));
-                })
-            });
-            db.collection('trades').insertOne({
-                traded_on: new Date(),
-                trades: [givenBooks, gottenBooks],
-            }, (err, data) => {
-                if (err) console.log(err);
-                else{ 
-                    db.collection('books').deleteMany({_id:{
-                        $in: [...givenBookIDArray,...gottenBooksIDArray]
-                    }})
-                res.redirect('/trades');
-                }
-            })
         });
-    })
+        db.collection("books")
+            .find({
+                _id: {
+                    $in: givenBookIDArray,
+                },
+            })
+            .toArray((err, books) => {
+                let givenBooks = [];
+                let gottenBooks = [];
+                books.forEach((data) => {
+                    givenBooks.push(data);
+                    gottenBooks = data.requests;
+                    gottenBooks.forEach((book) => {
+                        gottenBooksIDArray.push(new ObjectID(book._id));
+                    });
+                });
+                db.collection("trades").insertOne({
+                        traded_on: new Date(),
+                        trades: [givenBooks, gottenBooks],
+                    },
+                    (err, data) => {
+                        if (err) console.log(err);
+                        else {
+                            db.collection("books").deleteMany({
+                                _id: {
+                                    $in: [...givenBookIDArray, ...gottenBooksIDArray],
+                                },
+                            });
+                            res.redirect("/trades");
+                        }
+                    }
+                );
+            });
+    });
     app.get("/trades", (req, res) => {
-        db.collection('trades').find({}).toArray((err,trades)=>{
-            res.render("trades.ejs", {...req.user,trades, calledfrom: "Trades" });
-        })
+        db.collection("trades")
+            .find({})
+            .toArray((err, trades) => {
+                res.render("trades.ejs", {...req.user, trades, calledfrom: "Trades" });
+            });
     });
     app.get("/users", (req, res) => {
         db.collection("users")
@@ -214,13 +236,13 @@ module.exports = (app, db) => {
     app.route("/users/edit").get(ensureAuthenticated, (req, res) => {
         res.render("editprofile.ejs", {...req.user });
     });
-    app.route("/users/:username").get( (req, res) => {
+    app.route("/users/:username").get((req, res) => {
         let { username } = req.params;
         db.collection("users")
             .find({ username: username })
             .toArray((err, data) => {
                 data = data[0];
-                res.render("profile.ejs", {user:data,...req.user});
+                res.render("profile.ejs", { user: data, ...req.user });
             });
     });
     app.route("/update").post(ensureAuthenticated, (req, res) => {
@@ -273,8 +295,8 @@ module.exports = (app, db) => {
     });
     app.get("/login", (req, res) => {
         session = req.session;
-        session['toGive'] = [];
-        session['toTake'] = [];
+        session["toGive"] = [];
+        session["toTake"] = [];
         res.render("login.ejs");
     });
     app.route("/logout").get(ensureAuthenticated, (req, res) => {

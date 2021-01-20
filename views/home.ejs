@@ -13,25 +13,25 @@
 
 <body>
     <%- include ('navbar.ejs') %>
-    <div id="container">
-        <div id="books-container">
-            <div class="intro">
-                <h1 style="display:inline">Books</h1><span>&nbsp;available for trade</span>
+        <div id="container">
+            <div id="books-container">
+                <div class="intro">
+                    <h1 style="display:inline">Books</h1><span>&nbsp;available for trade</span>
+                </div>
+                <form method="post" action="/requests/new">
+                    <%- include('listbooks.ejs') %>
+                        <div id="footer">
+
+                            <% if(typeof name=='undefined'){ %>
+                                <a href="/login">Login to create requests</a>
+                                <% } else { %>
+                                    <input type="submit" value="New Request">
+                                    <a href="/books/my">New Book</a>
+                                    <% } %>
+                        </div>
+                </form>
             </div>
-            <form method="post" action="/requests/new">
-                <%- include('listbooks.ejs') %>
-                <div id="footer">
-        
-                <% if(typeof name=='undefined'){ %>
-                            <a href="/login">Login to create requests</a>
-                <% } else { %>
-                    <input type="submit" value="New Request">
-                    <a href="/books/my">New Book</a>
-                <% } %>
         </div>
-        </form>
-        </div>
-    </div>
         <script src="public/client.js"></script>
 </body>
 

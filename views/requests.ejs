@@ -16,16 +16,18 @@
                 <div class="inner-container">
                     <% if(typeof username!=='undefined' && username == liverequests[key][0].username ){ %>
                         <a class="link red" href="/cancelrequest/<%= key%>">Cancel Request</a>
-                    <% } %>
-                    <a class="link" href="/users/<%= liverequests[key][0].username %>"><%= liverequests[key][0].username %></a> wants to give
-                        <div class="inner-elements element">
-                            <span>
+                        <% } %>
+                            <a class="link" href="/users/<%= liverequests[key][0].username %>">
+                                <%= liverequests[key][0].username %>
+                            </a> wants to give
+                            <div class="inner-elements element">
+                                <span>
                             Title:
                             <%= liverequests[key][0].title %></span>
-                            </span>
+                                </span>
                                 Description:
                                 <%= liverequests[key][0].desc %>
-                                <span>
+                                    <span>
                         </div>
 
                         and wants to take
@@ -36,14 +38,14 @@
                                     <%= book.title %><span>
                                        <span> Description:
                                         <%= book.desc %></span>
-                                        <span>Created By:<a class="link" href="/users/<%= book.username %>"><%= book.username %></a></span>
-                                </div>
-                                <% })%>
-                        </div>
+                                    <span>Created By:<a class="link" href="/users/<%= book.username %>"><%= book.username %></a></span>
+                            </div>
+                            <% })%>
                 </div>
-                <% }) %>
-
         </div>
+        <% }) %>
+
+            </div>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/public/listbooks.css">
-    <% books.forEach(book=>{ %>
+<% books.forEach(book=>{ %>
     <% 
  function differentiateYoursAndHis(){
     if((typeof name!=='undefined' )&& (book.created_by == id)){
@@ -9,8 +9,8 @@
 %>
         <div class="elements">
             <div class='inner-ele'>
-            <input type="checkbox" class="checkbox <%= differentiateYoursAndHis() %>" name="selectbooks" value="<%= book._id %>" id="<%= book._id %>">
-            <label for="<%= book._id %>">
+                <input type="checkbox" class="checkbox <%= differentiateYoursAndHis() %>" name="selectbooks" value="<%= book._id %>" id="<%= book._id %>">
+                <label for="<%= book._id %>">
                 <div>
                     <h5>
                         <%= book.title %>

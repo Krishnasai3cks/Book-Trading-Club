@@ -19,33 +19,30 @@ module.exports = (app, db) => {
                 callbackURL: "https://Book-Trading-Club.krishnasai4.repl.co/auth/github/callback",
             },
             (accessToken, refreshToken, profile, cb) => {
-                let {name,email,location,id,login} = profile._json;
-                db.collection('users').findOneAndUpdate(
-                    {id:profile.id},
-                    {
-                        $setOnInsert:{
-                            id:profile.id,
-                            name:name || "default name",
-                            email:email,
-                            created_on:new Date(),
-                            provider:profile.provider,
-                            location:location,
-                            username:login,
+                let { name, email, location, id, login } = profile._json;
+                db.collection('users').findOneAndUpdate({ id: profile.id }, {
+                        $setOnInsert: {
+                            id: profile.id,
+                            name: name || "default name",
+                            email: email,
+                            created_on: new Date(),
+                            provider: profile.provider,
+                            location: location,
+                            username: login,
                         },
-                        $set:{
-                            last_login:new Date()
+                        $set: {
+                            last_login: new Date()
                         },
-                        $inc:{
-                            login_count:1
+                        $inc: {
+                            login_count: 1
                         },
+                    }, {
+                        upsert: true,
+                        new: true
                     },
-                    {
-                        upsert:true,
-                        new:true
-                    },
-                    (err,doc)=>{
-                        if(err) console.log(err);
-                        return cb(null,doc.value);
+                    (err, doc) => {
+                        if (err) console.log(err);
+                        return cb(null, doc.value);
                     }
                 )
             }

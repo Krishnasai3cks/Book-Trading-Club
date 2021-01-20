@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Trading - Profile</title>
     <style>
-    .link{
-    background-color: rgba(157, 231, 160,0.4); /* Green */
+        .link {
+            background-color: rgba(157, 231, 160, 0.4);
+            /* Green */
             cursor: pointer;
             border: none;
             color: black;
@@ -31,18 +32,16 @@
 
         <p>
             Username:
-            <%= user.username %><br>
-                Full Name:
-                <%= user.name %><br>
-                    Location:
+            <%= user.username %><br> Full Name:
+                <%= user.name %><br> Location:
                     <%= user.location %><br>
         </p>
         <% if(typeof name!=='undefined' && user.name==name){%>
-        <div>
-            <a class="link" href="/books/my">Your books</a>
-            <a class="link" href="/users/edit">Edit your profile</a>
-        </div>
-        <% } %>
+            <div>
+                <a class="link" href="/books/my">Your books</a>
+                <a class="link" href="/users/edit">Edit your profile</a>
+            </div>
+            <% } %>
 </body>
 
 </html>

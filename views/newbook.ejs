@@ -9,7 +9,7 @@
 
 <body>
     <%- include('navbar.ejs');%>
-    <br><br>
+        <br><br>
         <div class="container">
             <div class="top-container">
                 <form action="/newbook" method="post">
@@ -28,15 +28,15 @@
 
                 </div>
                 <% if(data.length==0){%>
-                                You currently have no books
+                    You currently have no books
 
-                <% } else {%>
-                <% data.forEach(val=>{ %>
-                    <br> <br>
-                    <%= val.title %>
-                    <%= val.desc %>
-               <% }) %>
-               <% } %>
+                    <% } else {%>
+                        <% data.forEach(val=>{ %>
+                            <br> <br>
+                            <%= val.title %>
+                                <%= val.desc %>
+                                    <% }) %>
+                                        <% } %>
             </div>
         </div>
 </body>

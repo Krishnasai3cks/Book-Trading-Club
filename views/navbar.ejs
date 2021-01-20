@@ -3,22 +3,22 @@
     <a href="/books">Book Exchange</a>
     <a class="nav-link" href="/books" id="books">Books</a>
     <div class="drop-container">
-        
+
         <% if(typeof name!=='undefined'){%>
-        <span class="nav-link">&#8628; Requests</span>
+            <span class="nav-link">&#8628; Requests</span>
             <ul class="dropdown">
                 <li><a class="nav-link" href="/requests" id="All-Requests">All Requests</a></li>
                 <li><a class="nav-link" href="/requests/new" id="New-Requests">Create request</a></li>
                 <% if(activerequests.length>0){%>
-                <li>
-                <a class="nav-link" href="/liverequests">Live Requests</a>
-                </li>
-                <% } %>
+                    <li>
+                        <a class="nav-link" href="/liverequests">Live Requests</a>
+                    </li>
+                    <% } %>
             </ul>
             <% } else {%>
                 <a class="nav-link" href="/requests" id="All-Requests"><span class="nav-link"> Requests</span></a>
-                
-            <% } %>
+
+                <% } %>
     </div>
     <a href="/trades" class="nav-link" id="Trades">Trades</a>
     <a href="/users" class="nav-link" id="Users">Users</a>
@@ -27,13 +27,13 @@
         <% } else { %>
             <div class="drop-container">
                 <span class="nav-link"><%= username %> &#8628;</span>
-                    <ul class="dropdown">
-                        <li><a class="nav-link" href="/users/<%= username %>">Profile</a></li>
-                        <li><a class="nav-link" href="/users/edit">Edit Profile</a>
-                        </li>
-                        <li><a class="nav-link" href="/books/my">My Books</a></li>
-                        <li><a class="nav-link" href="/logout">Logout</a></li>
-                    </ul>
+                <ul class="dropdown">
+                    <li><a class="nav-link" href="/users/<%= username %>">Profile</a></li>
+                    <li><a class="nav-link" href="/users/edit">Edit Profile</a>
+                    </li>
+                    <li><a class="nav-link" href="/books/my">My Books</a></li>
+                    <li><a class="nav-link" href="/logout">Logout</a></li>
+                </ul>
             </div>
             <% } %>
 
@@ -43,5 +43,4 @@
         let calledfrom = "<%= calledfrom %>";
         document.getElementById(calledfrom).setAttribute('class', 'pageselect');
     </script>
-<% }%>
-
+    <% }%>
